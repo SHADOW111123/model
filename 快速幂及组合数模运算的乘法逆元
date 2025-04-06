@@ -1,4 +1,4 @@
-//fac数组为阶乘，infac数组为阶乘的逆元//a在%mod意义下的乘法逆元为a的mod-2次方//mod为质数//
+//fac数组为阶乘，infac数组为阶乘的逆元//a在%mod意义下的乘法逆元为a的mod-2次方%mod//mod为质数//
 //快速幂
 long long qqpow(long long  a,long long b)//a的mod-2次方
 {
