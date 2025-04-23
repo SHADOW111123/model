@@ -1,0 +1,76 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+const int MAXN = 5005;
+const int INF = INT_MAX;
+
+// 边的结构体
+struct Edge {
+    int to;
+    int weight;
+};
+
+// 邻接表存储图
+vector<Edge> graph[MAXN];
+// 存储每个点到最小生成树的最短距离
+int dist[MAXN];
+// 标记点是否已加入最小生成树
+bool visited[MAXN];
+
+// 读入数据并构建图
+void readInput(int &n, int &m) {
+    cin >> n >> m;
+    for (int i = 0; i < m; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        graph[u].push_back({v, w});
+        graph[v].push_back({u, w});
+    }
+}
+
+// Prim 算法实现
+int prim(int n) {
+    fill(dist, dist + n + 1, INF);
+    fill(visited, visited + n + 1, false);
+    dist[1] = 0;
+    int totalWeight = 0;
+
+    for (int i = 0; i < n; ++i) {
+        int minDist = INF;
+        int minVertex = -1;
+        // 找到距离最小生成树最近的点
+        for (int j = 1; j <= n; ++j) {
+            if (!visited[j] && dist[j] < minDist) {
+                minDist = dist[j];
+                minVertex = j;
+            }
+        }
+        if (minVertex == -1) {
+            return -1;
+        }
+        visited[minVertex] = true;
+        totalWeight += minDist;
+        // 更新其他点到最小生成树的距离
+        for (const Edge &edge : graph[minVertex]) {
+            if (!visited[edge.to] && edge.weight < dist[edge.to]) {
+                dist[edge.to] = edge.weight;
+            }
+        }
+    }
+    return totalWeight;
+}
+
+int main() {
+    int n, m;
+    readInput(n, m);
+    int result = prim(n);
+    if(result!=-1)
+    cout << result << endl;
+    else
+    {
+        cout<<"orz";
+    }
+    return 0;
+}    
