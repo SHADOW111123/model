@@ -1,44 +1,46 @@
-#include<iostream>
-#include<vector>
-#include<stack>
-using namespace std;
-#define int long long
-signed main()
-{
 
-	int n;
-	cin >> n;
-	stack<int> s;
-	vector<int> a(n+1);
-	vector<int> ans(n+1);
-	for (int i = 1; i <= n; i++)
-	{
-		cin >> a[i];
-	}
+//ans为答案数组，n为数组右边界，a[n];s为栈，记得清空，a为数组，记录每个下标的值;
+
+void rightgreater(vector<int>& a, vector<int>& ans, stack<int>& s, int n)//ans[n]==0;//右边第一个大于的值的下标
+{
 	for (int i = n; i >= 1; i--)
 	{
-		while (!s.empty()&&a[i]>=a[s.top()])
+		while (!s.empty() && a[i] >= a[s.top()])
 		{
 			s.pop();
-			
+
 		}
+		if (!s.empty())
+			ans[i] = s.top();
+		else
+			ans[i] = 0;//没有则为0
+		s.push(i);
+
+	}
+
+
+}
+
+
+void leftgreater(vector<int>& a, vector<int>& ans, stack<int>& s, int n)//ans[1]==0;//左边第一个大于的值的下标
+{
+
+	for (int i = 1; i <= n; i++)
+	{
+		while (!s.empty() && a[i] >= a[s.top()])
+		{
+			s.pop();
+		}
+
 		if (!s.empty())
 			ans[i] = s.top();
 		else
 			ans[i] = 0;
 		s.push(i);
 
-	}
 
-
-
-	for (int i = 1; i <= n; i++)
-	{
-		cout << ans[i] << " ";
 	}
 
 
 }
-//1，每个数字右边的第一个比它大的数的下标，从1开始；
-
 
