@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+#define int long long
+using namespace std;
+const int N=1e6+5,inf=1e18;
+int n,m;
+int a[N];
+int q[N];
+signed main(){
+	ios::sync_with_stdio(false);
+	cin.tie(0),cout.tie(0);
+	cin>>n>>m;
+	for(int i=1;i<=n;i++){
+		cin>>a[i];
+	} 
+	int l=1,r=0;
+	for(int i=1;i<=n;i++){
+		while(l<=r && a[q[r]]>=a[i]){
+			r--;
+		}
+		while(l<=r && q[l]+m<=i){
+			l++;
+		}
+		q[++r]=i;
+		if(i>=m){
+			cout<<a[q[l]]<<" ";//滑动窗口的最小值
+		}
+	}
+	cout<<"\n";
+	l=1,r=0;
+	for(int i=1;i<=n;i++){
+		while(l<=r && a[q[r]]<=a[i]){
+			r--;
+		}
+		while(l<=r && q[l]+m<=i){
+			l++;
+		}
+		q[++r]=i;
+		if(i>=m){
+			cout<<a[q[l]]<<" ";//最大值
+		}
+	}
+	return 0;
+}
