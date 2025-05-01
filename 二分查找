@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int search(const vector<int>& nums, int i, int C, int n) {
+    int left = i + 1, right = n - 1;
+    int count = 0;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] - nums[i] == C) {
+            int l = mid;
+            while (l > left && nums[l - 1] - nums[i] == C) {
+                l--;
+            }
+            int r = mid;
+            while (r < right && nums[r + 1] - nums[i] == C) {
+                r++;
+            }
+            count += r - l + 1;
+            break;
+        }
+        else if (nums[mid] - nums[i] > C) {
+            right = mid - 1;
+        } 
+        else {
+            left = mid + 1;
+        }
+    }
+    return count;
+}
+int main() {
+    int N, C;
+    cin >> N >> C;
+    vector<int> a(N);
+    for (int i = 0; i < N; i++) {
+        cin >> a[i];
+    }
+    sort(a.begin(), a.end());
+
+    int ans = 0;
+    for (int i = 0; i < N; i++) {
+        ans += search(a, i, C, N);
+    }
+
+    cout << ans << endl;
+    return 0;
+}
