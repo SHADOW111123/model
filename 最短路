@@ -1,0 +1,39 @@
+//BFS计算无权最短路，不需要min比较因为bfs先达到的一定最短
+    // BFS计算从源点s到所有其他顶点的最短路径
+    vector<int> shortestPath(int s) {
+        vector<int> dist(V, INT_MAX); // 初始化距离为无穷大
+        queue<int> q;
+
+        dist[s] = 0; // 源点到自身的距离为0
+        q.push(s);
+
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+
+            // 遍历所有邻接点
+            for (int v : adj[u]) {
+                if (dist[v] == INT_MAX) {
+                    dist[v] = dist[u] + 1;
+                    q.push(v);
+                }
+            }
+        }
+
+        return dist;
+    }
+
+   
+    void printShortestPath(int s, int d) {
+        vector<int> dist = shortestPath(s);
+
+        cout << "从顶点 " << s << " 到顶点 " << d << " 的最短路径长度是: ";
+        if (dist[d] != INT_MAX)
+            cout << dist[d] << endl;
+        else
+            cout << "不可达" << endl;
+    }
+};
+
+
+
