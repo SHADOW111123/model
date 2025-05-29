@@ -1,0 +1,73 @@
+//记忆:访问寻找dist最小顶点，将其vis改为1，再不断更新其周围顶点的dist，vis不改变，方便后续更新;若一个点的vis是1，那么它的最短路径已经确定，因为每一步选择的路径就是所有路径中最短的：
+#include <iostream>
+#include <vector>
+#include <limits>
+
+const int INF = std::numeric_limits<int>::max();
+
+// 迪杰斯特拉算法
+void dijkstra(int n, int m, int s, std::vector<std::vector<int>>& graph) {
+    std::vector<int> dist(n + 1, INF);
+    std::vector<bool> visited(n + 1, false);
+
+    dist[s] = 0;
+    for (int count = 0; count < n - 1; ++count)
+    {
+        int minDist = INF, minIndex;
+        // 找到未访问顶点中距离最小的顶点
+        for (int v = 1; v <= n; ++v) 
+        {
+            if (!visited[v] && dist[v] <= minDist) {
+                minDist = dist[v];
+                minIndex = v;
+            }
+        }
+     
+       if (dist[4] != INF)
+       {
+         std::  cout << "dist4" << dist[4] << std::endl;
+       }
+       std::cout << "mindex" << minIndex << std::endl;
+        visited[minIndex] = true;
+        // 更新相邻顶点的距离
+        for (int v = 1; v <= n; ++v) 
+        {
+            if (!visited[v] && graph[minIndex][v] != INF && dist[minIndex] != INF&& dist[minIndex] + graph[minIndex][v] < dist[v])
+            {
+
+                dist[v] = dist[minIndex] + graph[minIndex][v];
+            }
+        }
+    }
+
+    // 输出结果
+    for (int i = 1; i <= n; ++i) {
+        if (dist[i] == INF) {
+            std::cout << (1LL << 31) - 1 << " ";
+        }
+        else {
+            std::cout << dist[i] << " ";
+        }
+    }
+}
+
+int main() {
+    int n, m, s;
+    std::cin >> n >> m >> s;
+    // 邻接矩阵初始化
+    std::vector<std::vector<int>> graph(n + 1, std::vector<int>(n + 1, INF));
+    for (int i = 0; i < m; ++i) {
+        int u, v, w;
+        std::cin >> u >> v >> w;
+        // 可能存在重边，取最小值
+        if (w < graph[u][v]) {
+            graph[u][v] = w;
+        }
+    }
+    dijkstra(n, m, s, graph);
+    return 0;
+}
+
+
+
+
