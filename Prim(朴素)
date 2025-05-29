@@ -1,3 +1,11 @@
+//关于最小生成树，普利姆用于稠密图(边约等于顶点平方，边多顶点少)，克鲁斯卡尔用于稀疏图
+prim朴素方法时间复杂度为n(顶点)方
+堆优化后为m(边)（logn(顶点)）//若为稠密图，退化为n方logn，稀疏图则为nlogn
+克鲁斯卡尔的时间复杂度为mlogm（边）;稠密图退化为n方logn方
+
+
+
+
 #include <iostream>
 #include <vector>
 #include <climits>
