@@ -23,10 +23,7 @@ void dijkstra(int n, int m, int s, std::vector<std::vector<int>>& graph) {
             }
         }
      
-       if (dist[4] != INF)
-       {
-         std::  cout << "dist4" << dist[4] << std::endl;
-       }
+      
        std::cout << "mindex" << minIndex << std::endl;
         visited[minIndex] = true;
         // 更新相邻顶点的距离
