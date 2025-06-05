@@ -17,7 +17,7 @@ void dijkstra(int n, int m, int s, std::vector<std::vector<int>>& graph) {
         // 找到未访问顶点中距离最小的顶点
         for (int v = 1; v <= n; ++v) 
         {
-            if (!visited[v] && dist[v] <= minDist) {
+            if (!visited[v] && dist[v] < minDist) {
                 minDist = dist[v];
                 minIndex = v;
             }
