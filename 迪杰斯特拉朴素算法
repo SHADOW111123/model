@@ -11,7 +11,7 @@ void dijkstra(int n, int m, int s, std::vector<std::vector<int>>& graph) {
     std::vector<bool> visited(n + 1, false);
 
     dist[s] = 0;
-    for (int count = 0; count < n - 1; ++count)
+    for (int count = 0; count < n; ++count)
     {
         int minDist = INF, minIndex;
         // 找到未访问顶点中距离最小的顶点
@@ -22,14 +22,12 @@ void dijkstra(int n, int m, int s, std::vector<std::vector<int>>& graph) {
                 minIndex = v;
             }
         }
-     
-      
-       std::cout << "mindex" << minIndex << std::endl;
+
         visited[minIndex] = true;
         // 更新相邻顶点的距离
         for (int v = 1; v <= n; ++v) 
         {
-            if (!visited[v] && graph[minIndex][v] != INF && dist[minIndex] != INF&& dist[minIndex] + graph[minIndex][v] < dist[v])
+            if (!visited[v] && graph[minIndex][v] != INF && dist[minIndex] + graph[minIndex][v] < dist[v])
             {
 
                 dist[v] = dist[minIndex] + graph[minIndex][v];
@@ -40,7 +38,7 @@ void dijkstra(int n, int m, int s, std::vector<std::vector<int>>& graph) {
     // 输出结果
     for (int i = 1; i <= n; ++i) {
         if (dist[i] == INF) {
-            std::cout << (1LL << 31) - 1 << " ";
+            std::cout << (1 << 31) - 1 << " ";
         }
         else {
             std::cout << dist[i] << " ";
