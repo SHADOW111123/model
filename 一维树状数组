@@ -1,4 +1,6 @@
-
+性质 1 表明，对于 x≤y，c[x]与 c[y]的关系要么是互不相交，要么是 c[x]包含于 c[y]；
+性质 2 指出 c[x]真包含于 c[x+lowbit(x)]；
+性质 3 说明，对任意满足 x<y<x+lowbit(x)的情况，c[x]和 c[y]互不相交。
 
 #include<iostream>
 #include <cmath>
