@@ -26,3 +26,51 @@ int main(){
     return 0;
 }
 
+
+
+
+
+//二分lis
+
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#define ll long long
+#define rg register int
+using namespace std;
+
+int n;                  // 数组长度
+int a[200005];          // 原始数组
+int f[200005];          // f[i]表示长度为i的LIS的末尾元素的最小值
+
+int main(){
+    cin>>n;
+    for(rg i=1;i<=n;++i) cin>>a[i];  // 读入数组
+    
+    rg ans=1; f[1]=a[1];  // 初始化：长度为1的LIS末尾元素是a[1]
+    
+    // 从第二个元素开始遍历数组
+    for(rg i=2;i<=n;++i){
+        // 二分查找：在f[1..ans]中找到第一个大于等于a[i]的位置
+        rg l=1,r=ans,mid;
+        while(l<=r){
+            mid=(l+r)>>1;
+            if(a[i]<=f[mid])r=mid-1;  // 目标位置在左半部分
+            else l=mid+1;             // 目标位置在右半部分
+        }
+        
+        f[l]=a[i];  // 更新长度为l的LIS的末尾元素为a[i]
+        
+        // 如果当前找到的位置超过了已有的LIS长度，说明可以扩展LIS
+        if(l>ans)++ans;
+    }
+    
+    cout<<ans<<endl;  // 输出最长上升子序列的长度
+    return 0;
+}
+
+
+
+
+
+
