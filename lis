@@ -38,7 +38,7 @@ int main(){
     for1
         cin >> vec[i];
 
-    vector<int> dp(n + 1);下标i结尾的最长lis长度
+    vector<int> dp(n + 1);下标i为止的最长lis长度
     vector<int> binary(n + 1);//长度为i的lis的最小尾元素
 
     fill(dp.begin() + 1, dp.end(),1);
