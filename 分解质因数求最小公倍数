@@ -1,0 +1,11 @@
+for (int j = 2; j * j <= x; j++) {
+    if (x % j == 0) {
+        int cnt = 0;
+        while (x % j == 0) {
+            x /= j;
+            cnt++;
+        }
+        mp[j] = max(mp[j], cnt);
+    }
+}
+if (x > 1) mp[x] = max(mp[x], 1);
