@@ -63,8 +63,23 @@ int main() {
         f[l]=a[i];  //
 l指针会停留在符合题意位置上且l最终=r+1
 
-
-
+查找最后一个小于等于k的位置//去掉等于号则为找最后一个小于k的位置;
+int findFirstLessOrEqual(int k, int a[], int n) {
+    int l = 1, r = n, mid;
+    int result = -1; // 初始化为-1，表示没有找到小于等于k的值
+    
+    while (l <= r) {
+        mid = (l + r) >> 1;
+        if (a[mid] <= k) {
+            result = mid;    // 记录当前可能的答案
+            l = mid + 1;     // 尝试在右半部分寻找更大的位置
+        } else {
+            r = mid - 1;     // 当前值大于k，在左半部分继续查找
+        }
+    }
+    
+    return result;
+}
 
 
 
