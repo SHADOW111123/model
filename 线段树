@@ -5,7 +5,7 @@
 1 x y k：将区间 [x,y] 内每个数加上 k。
 2 x y：输出区间 [x,y] 内每个数的和。
 
-
+区间和，每个区间加k
 #include <iostream>
 using LL = long long;
 LL n, a[100005];
@@ -79,6 +79,104 @@ int main()
             std::cout << getsum(i2, i3, 1, n, 1) << std::endl;  //在[1,n]查询[i2,i3]的区间和
         else
             std::cin >> i4, update(i2, i3, i4, 1, n, 1);//[1,n]区间内[i2,i3]加上i4
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+区间积，每个区间乘k
+#include <iostream>
+using LL = long long;
+
+const LL N = 100005;
+const LL MOD = 1e9 + 7;
+
+LL n, a[N];
+LL d[N * 4];  // 区间积
+LL b[N * 4];  // 懒标记（乘法）
+
+LL qpow(LL a, LL b) {
+    LL res = 1;
+    while (b) {
+        if (b & 1) res = res * a % MOD;
+        a = a * a % MOD;
+        b >>= 1;
+    }
+    return res;
+}
+
+void build(LL l, LL r, LL p) {
+    b[p] = 1;  // 初始乘法懒标记为1
+    if (l == r) {
+        d[p] = a[l] % MOD;
+        return;
+    }
+    LL m = (l + r) >> 1;
+    build(l, m, p << 1);
+    build(m + 1, r, p << 1 | 1);
+    d[p] = d[p << 1] * d[p << 1 | 1] % MOD;
+}
+
+void update(LL l, LL r, LL c, LL s, LL t, LL p) {
+    if (l <= s && t <= r) {
+        d[p] = d[p] * qpow(c, t - s + 1) % MOD;
+        b[p] = b[p] * c % MOD;
+        return;
+    }
+
+    // 内联 pushdown
+    LL m = (s + t) >> 1;
+    if (b[p] != 1) {
+        d[p << 1] = d[p << 1] * qpow(b[p], m - s + 1) % MOD;
+        d[p << 1 | 1] = d[p << 1 | 1] * qpow(b[p], t - m) % MOD;
+        b[p << 1] = b[p << 1] * b[p] % MOD;
+        b[p << 1 | 1] = b[p << 1 | 1] * b[p] % MOD;
+        b[p] = 1;
+    }
+
+    if (l <= m) update(l, r, c, s, m, p << 1);
+    if (r > m) update(l, r, c, m + 1, t, p << 1 | 1);
+    d[p] = d[p << 1] * d[p << 1 | 1] % MOD;
+}
+
+LL getsum(LL l, LL r, LL s, LL t, LL p) {
+    if (l <= s && t <= r) return d[p];
+
+    // 内联 pushdown
+    LL m = (s + t) >> 1;
+    if (b[p] != 1) {
+        d[p << 1] = d[p << 1] * qpow(b[p], m - s + 1) % MOD;
+        d[p << 1 | 1] = d[p << 1 | 1] * qpow(b[p], t - m) % MOD;
+        b[p << 1] = b[p << 1] * b[p] % MOD;
+        b[p << 1 | 1] = b[p << 1 | 1] * b[p] % MOD;
+        b[p] = 1;
+    }
+
+    LL res = 1;
+    if (l <= m) res = res * getsum(l, r, s, m, p << 1) % MOD;
+    if (r > m) res = res * getsum(l, r, m + 1, t, p << 1 | 1) % MOD;
+    return res;
+}
+
+int main() {
+    std::ios::sync_with_stdio(false);
+    LL q, op, x, y, val;
+    std::cin >> n >> q;
+    for (LL i = 1; i <= n; ++i) std::cin >> a[i];
+    build(1, n, 1);
+    while (q--) {
+        std::cin >> op >> x >> y;
+        if (op == 2)
+            std::cout << getsum(x, y, 1, n, 1) << "\n";
+        else {
+            std::cin >> val;
+            update(x, y, val, 1, n, 1);
+        }
     }
     return 0;
 }
