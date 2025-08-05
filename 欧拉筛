@@ -1,59 +1,61 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
-int n; // 全局变量，供 oulashai 使用
-
-// 欧拉筛，生成质数 + spf + judge
-void oulashai(vector<int>& prime, vector<int>& isprime, vector<int>& spf, vector<int>& judge)
-{
-    for (int i = 2; i <= n; i++)
-    {
-        if (isprime[i])
-        {
-            prime.push_back(i);  // i 是质数
-            spf[i] = i;          // 最小质因子是它自己
-            judge[i] = 1;        // 质数的质因子个数为 1 ⇒ 奇数个
+const int MAXN = 1000005; // 预处理最大范围
+vector<int> prime;
+vector<int> isprime(MAXN + 1, 1);
+vector<int> spf(MAXN + 1, 0);
+vector<int> judge(MAXN + 1, 0);
+void oulashai(int n) {
+    isprime[0] = isprime[1] = 0;
+    for (int i = 2; i <= n; i++) {
+        if (isprime[i]) {
+            prime.push_back(i);
+            spf[i] = i;
+            judge[i] = 1; // 质因子个数为奇数
         }
-
-        for (int j = 0; j < prime.size(); j++)
-        {
+        for (int j = 0; j < (int)prime.size(); j++) {
             int p = prime[j];
             if (i * p > n) break;
-
-            isprime[i * p] = 0;     // 合数标记
-            spf[i * p] = p;         // 最小质因子为 p
-            judge[i * p] = judge[i] ^ 1; // 每乘一个质因子，质因子数 +1 ⇒ 奇偶性翻转
-
-            if (i % p == 0) break; // 保证每个合数只由它的最小质因子筛出
+            isprime[i * p] = 0;
+            spf[i * p] = p;
+            judge[i * p] = judge[i] ^ 1; // 奇偶翻转
+            if (i % p == 0) break;
         }
     }
 }
-
-int main()
+void factorize(int x)//分解质因数函数;
 {
-    cout << "请输入一个整数 n：";
-    cin >> n;
-
-    vector<int> prime;                 // 存储质数
-    vector<int> isprime(n + 1, 1);     // 是否是质数
-    vector<int> spf(n + 1, 0);         // i的最小质因子
-    vector<int> judge(n + 1, 0);       // judge[i]：i的质因子个数是否为奇数
-
-    oulashai(prime, isprime, spf, judge);
-
-    cout << "不超过 " << n << " 的质数有：" << endl;
-    for (int p : prime)
-        cout << p << " ";
-    cout << endl;
-
-    cout << "\n每个数的最小质因子 spf[i] 和 judge[i]：" << endl;
-    for (int i = 2; i <= n; i++)
+    cout << x << " = ";
+    bool first = true;
+    while (x > 1)
     {
-        cout << "i = " << i
-             << ", spf[" << i << "] = " << spf[i]
-             << ", judge[" << i << "] = " << judge[i] << endl;
+        int p = spf[x], cnt = 0;
+        while (x % p == 0) x /= p, cnt++;
+        if (!first) cout << " * ";
+        cout << p << "^" << cnt;
+        first = false;
     }
+    cout << endl;
+} 
 
+int main() {
+    // 预处理一次，之后所有输入都用预处理数据
+    oulashai(MAXN);
+
+    int t; cin >> t;
+    while (t--) {
+        int n; cin >> n;
+        int cnt = 0;
+        for (int i = 2; i <= n; i++) {
+            if (cnt == n / 2) break;
+            if (judge[i]) {
+                cout << i << " ";
+                cnt++;
+            }
+        }
+        cout << "\n";
+    }
     return 0;
 }
+
