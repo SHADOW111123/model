@@ -37,8 +37,8 @@ int main()
 
     vector<int> prime;                 // 存储质数
     vector<int> isprime(n + 1, 1);     // 是否是质数
-    vector<int> spf(n + 1, 0);         // 最小质因子
-    vector<int> judge(n + 1, 0);       // judge[i]：质因子个数是否为奇数
+    vector<int> spf(n + 1, 0);         // i的最小质因子
+    vector<int> judge(n + 1, 0);       // judge[i]：i的质因子个数是否为奇数
 
     oulashai(prime, isprime, spf, judge);
 
