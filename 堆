@@ -51,4 +51,34 @@ int main() {
     */
 }
 
+set逆序排序
+#include <iostream>
+#include <set>
+using namespace std;
+
+int main() {
+    // 定义lambda表达式作为比较器，实现降序排序
+    auto comp = [](int a, int b) {
+        return a > b; // 降序排列
+        };
+
+    // 定义逆序排序的multiset（允许重复元素）
+    multiset<int, decltype(comp)> ms(comp);
+
+    // 插入元素（包含重复值）
+    ms.insert(5);
+    ms.insert(3);
+    ms.insert(5); // 重复元素
+    ms.insert(7);
+    ms.insert(3); // 重复元素
+    ms.insert(1);
+
+    // 遍历输出，会按 7,5,5,3,3,1 顺序打印
+    for (int num : ms) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
 
