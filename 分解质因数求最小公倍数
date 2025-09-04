@@ -9,3 +9,37 @@ for (int j = 2; j * j <= x; j++) {
     }
 }
 if (x > 1) mp[x] = max(mp[x], 1);
+分解质因数模板
+#include <bits/stdc++.h>
+using namespace std;
+
+// 质因数分解函数
+map<long long, int> factorize(long long n) {
+    map<long long, int> factors;
+    for (long long i = 2; i * i <= n; i++) {
+        while (n % i == 0) {
+            factors[i]++;
+            n /= i;
+        }
+    }
+    if (n > 1) factors[n]++; // 处理剩余的质数
+    return factors;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    cin >> n;
+
+    auto factors = factorize(n);
+
+    cout << n << " 的质因数分解为：\n";
+    for (auto [p, cnt] : factors) {
+        cout << p << "^" << cnt << " ";
+    }
+    cout << "\n";
+
+    return 0;
+}
